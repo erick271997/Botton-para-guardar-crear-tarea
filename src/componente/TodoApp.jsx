@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import Todo from "./Todo";
+import '../stilo/TodoApp.css';
 
 const TodoApp = ()=>{
     const [title, seTitle] = useState("hola");  
@@ -10,6 +11,7 @@ const TodoApp = ()=>{
     }
     function handleSubmit(escuchar){
         escuchar.preventDefault();
+
         const newTodo ={
             id: crypto.randomUUID(),
             title: title,
@@ -17,6 +19,21 @@ const TodoApp = ()=>{
         };
         const temp = [... todos];
         temp.unshift(newTodo);
+
+        setTodos(temp);
+
+        seTitle("");
+    }
+
+    const handleUpdate = (id, value) =>{
+        const temp = [... todos];
+        const item = temp.find((item) => item.id = id);
+        item.title = value;
+        setTodos(temp);
+    }
+    const handleDelete = (id) =>{
+        const temp = todos.filter(item => item.id = id);
+
         setTodos(temp);
     }
     return(
@@ -30,7 +47,7 @@ const TodoApp = ()=>{
             </form>
             <div className="todosContainer">
                 {todos.map((item) => (
-                    <div key={item.id}>{item.title}</div>
+                    <Todo key={item.id} item={item} onUpdate={handleUpdate} onDelete={handleDelete}/>  
                     ))}
             </div>
         </div>
